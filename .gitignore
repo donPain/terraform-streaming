@@ -1,0 +1,9 @@
+.DS_Store
+.env
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+apps/**/target/
+apps/**/__pycache__/
+apps/**/*.pyc

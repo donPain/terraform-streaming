@@ -1,0 +1,68 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Kafka messages in / second",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"expr": "sum(rate(kafka_server_brokertopicmetrics_messagesinpersec_total[1m])) by (topic)", "legendFormat": "{{topic}}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Kafka partition leaders",
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+      "targets": [{"expr": "sum(kafka_server_replicamanager_leadercount)", "legendFormat": "leaders"}]
+    },
+    {
+      "type": "stat",
+      "title": "Flink running jobs",
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+      "targets": [{"expr": "sum(flink_jobmanager_numRunningJobs)", "legendFormat": "jobs"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Flink records in / out",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [
+        {"expr": "sum(rate(flink_taskmanager_job_task_operator_numRecordsIn[1m]))", "legendFormat": "in"},
+        {"expr": "sum(rate(flink_taskmanager_job_task_operator_numRecordsOut[1m]))", "legendFormat": "out"}
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Flink backpressure ms / second",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{"expr": "max(flink_taskmanager_job_task_backPressuredTimeMsPerSecond)", "legendFormat": "{{task_name}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Pod CPU cores",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "targets": [{"expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"streaming|processing|storage\",container!=\"\"}[1m])) by (namespace,pod)", "legendFormat": "{{namespace}} / {{pod}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Pod memory working set",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "fieldConfig": {"defaults": {"unit": "bytes"}, "overrides": []},
+      "targets": [{"expr": "sum(container_memory_working_set_bytes{namespace=~\"streaming|processing|storage\",container!=\"\"}) by (namespace,pod)", "legendFormat": "{{namespace}} / {{pod}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Flink completed checkpoints",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+      "targets": [{"expr": "flink_jobmanager_job_numberOfCompletedCheckpoints", "legendFormat": "{{job_name}}"}]
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["learning", "kafka", "flink", "kubernetes"],
+  "templating": {"list": []},
+  "time": {"from": "now-30m", "to": "now"},
+  "timezone": "browser",
+  "title": "Local Streaming Platform",
+  "uid": "local-streaming-platform",
+  "version": 1
+}

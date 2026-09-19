@@ -1,0 +1,27 @@
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaNodePool
+metadata:
+  name: dual-role
+  namespace: streaming
+  labels:
+    strimzi.io/cluster: local-kafka
+spec:
+  replicas: 1
+  roles:
+    - controller
+    - broker
+  resources:
+    requests:
+      cpu: 250m
+      memory: 768Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: 5Gi
+        deleteClaim: true
+        kraftMetadata: shared
